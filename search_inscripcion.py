@@ -1,9 +1,8 @@
 import boto3
-import json
 
 def lambda_handler(event, context):
-    # Obtener los datos del evento desde el cuerpo de la solicitud
-    body = json.loads(event['body'])
+    # Acceder a id_estudiante y id_programa directamente
+    body = event['body']
     id_estudiante = body['id_estudiante']
     id_programa = body['id_programa']
     
@@ -19,11 +18,11 @@ def lambda_handler(event, context):
         }
     )
     
-    # Verificar si el ítem existe y devolverlo
+    # Verificar si el ítem existe y devolver todos los atributos de la inscripción
     if 'Item' in response:
         return {
             'statusCode': 200,
-            'body': json.dumps(response['Item']),
+            'body': str(response['Item']),
             'headers': {
                 'Content-Type': 'application/json'
             }
@@ -31,7 +30,7 @@ def lambda_handler(event, context):
     else:
         return {
             'statusCode': 404,
-            'body': json.dumps({'message': 'Inscripción no encontrada'}),
+            'body': '{"message": "Inscripción no encontrada"}',
             'headers': {
                 'Content-Type': 'application/json'
             }
