@@ -20,10 +20,27 @@ functions:
           integration: lambda
 
   searchProgram:
-    handler: search_program.lambda_handler  # Archivo 'search_program.py' y función 'lambda_handler'
+    handler: search_program.lambda_handler  
     events:
       - http:
           path: programa/search
+          method: post
+          cors: true
+          integration: lambda
+  createEstudiante:
+    handler: create_estudiante.lambda_handler  
+    events:
+      - http:
+          path: estudiante/create
+          method: post
+          cors: true
+          integration: lambda
+
+  searchEstudiante:
+    handler: search_estudiante.lambda_handler  # Archivo 'search_estudiante.py' y función 'lambda_handler'
+    events:
+      - http:
+          path: estudiante/search
           method: post
           cors: true
           integration: lambda
