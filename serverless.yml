@@ -1,87 +1,67 @@
 org: enzogomez
-service: api-estudiantes
+service: programa-service
 
 provider:
   name: aws
-  runtime: python3.12
+  runtime: python3.8
+  region: us-east-1
+  stage: dev
   iam:
     role: arn:aws:iam::353553552499:role/LabRole
-  environment:
-    TABLE_NAME_ESTUDIANTES: ${sls:stage}-t_estudiantes
-    TABLE_NAME_PROGRAMAS: ${sls:stage}-t_programas
 
 functions:
-  crearEstudiante:
-    handler: CrearEstudiante.lambda_handler
+  createProgram:
+    handler: handler.create_program
     events:
       - http:
-          path: /estudiante/crear
+          path: programa/create
           method: post
           cors: true
           integration: lambda
-  crearPrograma:
-    handler: CrearPrograma.lambda_handler
+
+  searchProgram:
+    handler: handler.search_program
     events:
       - http:
-          path: /programa/crear
+          path: programa/search
           method: post
           cors: true
           integration: lambda
 
 resources:
   Resources:
-    TablaEstudiantes:
+    EstudiantesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.TABLE_NAME_ESTUDIANTES}
+        TableName: estudiantes
         AttributeDefinitions:
-          - AttributeName: Universidad
-            AttributeType: S
-          - AttributeName: DNI
-            AttributeType: S
-          - AttributeName: ID_Estudiante
-            AttributeType: S
-          - AttributeName: Nombre
-            AttributeType: S
-          - AttributeName: Email
-            AttributeType: S
-          - AttributeName: Fecha_Nacimiento
-            AttributeType: S
-          - AttributeName: Carrera
-            AttributeType: S
-          - AttributeName: Telefono
-            AttributeType: S
+          - AttributeName: "id_estudiante"
+            AttributeType: "S"
+          - AttributeName: "dni"
+            AttributeType: "S"
         KeySchema:
-          - AttributeName: Universidad
-            KeyType: HASH
-          - AttributeName: DNI
-            KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST
-#hola
-    TablaProgramas:
+          - AttributeName: "id_estudiante"
+            KeyType: "HASH"
+          - AttributeName: "dni"
+            KeyType: "RANGE"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+
+    ProgramaTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.TABLE_NAME_PROGRAMAS}
+        TableName: programa
         AttributeDefinitions:
-          - AttributeName: ID_Programa
-            AttributeType: S
-          - AttributeName: Universidad
-            AttributeType: S
-          - AttributeName: Nombre
-            AttributeType: S
-          - AttributeName: Descripcion
-            AttributeType: S
-          - AttributeName: Fecha_Inicio
-            AttributeType: S
-          - AttributeName: Fecha_Fin
-            AttributeType: S
-          - AttributeName: Pais_Destino
-            AttributeType: S
-          - AttributeName: Requisitos
-            AttributeType: S
+          - AttributeName: "pais_destino"
+            AttributeType: "S"
+          - AttributeName: "fecha_inicio"
+            AttributeType: "S"
         KeySchema:
-          - AttributeName: ID_Programa
-            KeyType: HASH
-          - AttributeName: Universidad
-            KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST
+          - AttributeName: "pais_destino"
+            KeyType: "HASH"
+          - AttributeName: "fecha_inicio"
+            KeyType: "RANGE"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
