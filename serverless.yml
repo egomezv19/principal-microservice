@@ -1,0 +1,87 @@
+org: enzogomez
+service: api-estudiantes
+
+provider:
+  name: aws
+  runtime: python3.12
+  iam:
+    role: arn:aws:iam::353553552499:role/LabRole
+  environment:
+    TABLE_NAME_ESTUDIANTES: ${sls:stage}-t_estudiantes
+    TABLE_NAME_PROGRAMAS: ${sls:stage}-t_programas
+
+functions:
+  crearEstudiante:
+    handler: CrearEstudiante.lambda_handler
+    events:
+      - http:
+          path: /estudiante/crear
+          method: post
+          cors: true
+          integration: lambda
+  crearPrograma:
+    handler: CrearPrograma.lambda_handler
+    events:
+      - http:
+          path: /programa/crear
+          method: post
+          cors: true
+          integration: lambda
+
+resources:
+  Resources:
+    TablaEstudiantes:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME_ESTUDIANTES}
+        AttributeDefinitions:
+          - AttributeName: Universidad
+            AttributeType: S
+          - AttributeName: DNI
+            AttributeType: S
+          - AttributeName: ID_Estudiante
+            AttributeType: S
+          - AttributeName: Nombre
+            AttributeType: S
+          - AttributeName: Email
+            AttributeType: S
+          - AttributeName: Fecha_Nacimiento
+            AttributeType: S
+          - AttributeName: Carrera
+            AttributeType: S
+          - AttributeName: Telefono
+            AttributeType: S
+        KeySchema:
+          - AttributeName: Universidad
+            KeyType: HASH
+          - AttributeName: DNI
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+#hola
+    TablaProgramas:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME_PROGRAMAS}
+        AttributeDefinitions:
+          - AttributeName: ID_Programa
+            AttributeType: S
+          - AttributeName: Universidad
+            AttributeType: S
+          - AttributeName: Nombre
+            AttributeType: S
+          - AttributeName: Descripcion
+            AttributeType: S
+          - AttributeName: Fecha_Inicio
+            AttributeType: S
+          - AttributeName: Fecha_Fin
+            AttributeType: S
+          - AttributeName: Pais_Destino
+            AttributeType: S
+          - AttributeName: Requisitos
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ID_Programa
+            KeyType: HASH
+          - AttributeName: Universidad
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
