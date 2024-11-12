@@ -83,13 +83,13 @@ functions:
           integration: lambda
 
   createInscripcion:
-  handler: create_inscripcion.lambda_handler
-  events:
-    - http:
-        path: inscripcion/create
-        method: post
-        cors: true
-        integration: lambda
+    handler: create_inscripcion.lambda_handler
+    events:
+      - http:
+          path: inscripcion/create
+          method: post
+          cors: true
+          integration: lambda
 
   updateInscripcion:
     handler: update_inscripcion.lambda_handler
