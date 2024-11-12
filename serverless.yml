@@ -11,7 +11,7 @@ provider:
 
 functions:
   createProgram:
-    handler: handler.create_program
+    handler: create_program.lambda_handler
     events:
       - http:
           path: programa/create
@@ -20,7 +20,7 @@ functions:
           integration: lambda
 
   searchProgram:
-    handler: handler.search_program
+    handler: search_program.lambda_handler
     events:
       - http:
           path: programa/search
