@@ -37,6 +37,15 @@ functions:
           cors: true
           integration: lambda
 
+  updateProgram:
+    handler: update_program.lambda_handler  # Archivo 'update_program.py' y función 'lambda_handler'
+    events:
+      - http:
+          path: programa/update
+          method: put
+          cors: true
+          integration: lambda
+
   createEstudiante:
     handler: create_estudiante.lambda_handler  
     events:
@@ -61,6 +70,15 @@ functions:
       - http:
           path: estudiante/delete
           method: post
+          cors: true
+          integration: lambda
+
+  updateEstudiante:
+    handler: update_estudiante.lambda_handler  # Archivo 'update_estudiante.py' y función 'lambda_handler'
+    events:
+      - http:
+          path: estudiante/update
+          method: put
           cors: true
           integration: lambda
 
