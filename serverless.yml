@@ -91,23 +91,23 @@ functions:
         cors: true
         integration: lambda
 
-updateInscripcion:
-  handler: update_inscripcion.lambda_handler
-  events:
-    - http:
-        path: inscripcion/update
-        method: put
-        cors: true
-        integration: lambda
+  updateInscripcion:
+    handler: update_inscripcion.lambda_handler
+    events:
+      - http:
+          path: inscripcion/update
+          method: put
+          cors: true
+          integration: lambda
 
-searchInscripcion:
-  handler: search_inscripcion.lambda_handler
-  events:
-    - http:
-        path: inscripcion/search
-        method: post
-        cors: true
-        integration: lambda
+  searchInscripcion:
+    handler: search_inscripcion.lambda_handler
+    events:
+      - http:
+          path: inscripcion/search
+          method: post
+          cors: true
+          integration: lambda
 
 
 resources:
