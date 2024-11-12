@@ -9,22 +9,16 @@ def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('programa')
     
-    # Obtener el ítem de DynamoDB
-    response = table.get_item(
+    # Eliminar el ítem de DynamoDB
+    response = table.delete_item(
         Key={
             'id_programa': id_programa,
             'fecha_inicio': fecha_inicio
         }
     )
     
-    # Verificar si el ítem existe y devolverlo
-    if 'Item' in response:
-        return {
-            'statusCode': 200,
-            'body': response['Item']
-        }
-    else:
-        return {
-            'statusCode': 404,
-            'body': 'Programa no encontrado'
-        }
+    # Retornar la respuesta
+    return {
+        'statusCode': 200,
+        'body': 'Programa eliminado exitosamente'
+    }

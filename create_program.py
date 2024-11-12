@@ -2,6 +2,7 @@ import boto3
 
 def lambda_handler(event, context):
     # Obtener los datos del evento
+    id_programa = event['body']['id_programa']
     pais_destino = event['body']['pais_destino']
     descripcion = event['body']['descripcion']
     fecha_inicio = event['body']['fecha_inicio']
@@ -13,6 +14,7 @@ def lambda_handler(event, context):
     
     # Crear el ítem para DynamoDB
     programa = {
+        'id_programa': id_programa,
         'pais_destino': pais_destino,
         'descripcion': descripcion,
         'fecha_inicio': fecha_inicio,

@@ -56,6 +56,7 @@ resources:
             AttributeType: "S"
           - AttributeName: "dni"
             AttributeType: "S"
+          
         KeySchema:
           - AttributeName: "id_estudiante"
             KeyType: "HASH"
@@ -70,12 +71,12 @@ resources:
       Properties:
         TableName: programa
         AttributeDefinitions:
-          - AttributeName: "pais_destino"
+          - AttributeName: "id_programa"
             AttributeType: "S"
           - AttributeName: "fecha_inicio"
             AttributeType: "S"
         KeySchema:
-          - AttributeName: "pais_destino"
+          - AttributeName: "id_programa"
             KeyType: "HASH"
           - AttributeName: "fecha_inicio"
             KeyType: "RANGE"
