@@ -120,3 +120,21 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
+    
+    InscripcionesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: inscripciones
+        AttributeDefinitions:
+          - AttributeName: "id_estudiante"
+            AttributeType: "S"
+          - AttributeName: "id_programa"
+            AttributeType: "S"
+        KeySchema:
+          - AttributeName: "id_estudiante"
+            KeyType: "HASH"
+          - AttributeName: "id_programa"
+            KeyType: "RANGE"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
