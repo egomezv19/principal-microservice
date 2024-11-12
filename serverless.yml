@@ -11,7 +11,7 @@ provider:
 
 functions:
   createProgram:
-    handler: create_program.lambda_handler  # Archivo 'create_program.py' y función 'lambda_handler'
+    handler: create_program.lambda_handler  
     events:
       - http:
           path: programa/create
@@ -29,7 +29,7 @@ functions:
           integration: lambda
 
   deleteProgram:
-    handler: delete_program.lambda_handler  # Archivo 'delete_program.py' y función 'lambda_handler'
+    handler: delete_program.lambda_handler  
     events:
       - http:
           path: programa/delete
@@ -38,7 +38,7 @@ functions:
           integration: lambda
 
   updateProgram:
-    handler: update_program.lambda_handler  # Archivo 'update_program.py' y función 'lambda_handler'
+    handler: update_program.lambda_handler  
     events:
       - http:
           path: programa/update
@@ -56,7 +56,7 @@ functions:
           integration: lambda
 
   searchEstudiante:
-    handler: search_estudiante.lambda_handler  # Archivo 'search_estudiante.py' y función 'lambda_handler'
+    handler: search_estudiante.lambda_handler  
     events:
       - http:
           path: estudiante/search
@@ -65,7 +65,7 @@ functions:
           integration: lambda
           
   deleteEstudiante:
-    handler: delete_estudiante.lambda_handler  # Archivo 'delete_estudiante.py' y función 'lambda_handler'
+    handler: delete_estudiante.lambda_handler  
     events:
       - http:
           path: estudiante/delete
@@ -74,7 +74,7 @@ functions:
           integration: lambda
 
   updateEstudiante:
-    handler: update_estudiante.lambda_handler  # Archivo 'update_estudiante.py' y función 'lambda_handler'
+    handler: update_estudiante.lambda_handler  
     events:
       - http:
           path: estudiante/update
@@ -89,15 +89,15 @@ resources:
       Properties:
         TableName: estudiantes
         AttributeDefinitions:
-          - AttributeName: "id_estudiante"
+          - AttributeName: "universidad"
             AttributeType: "S"
-          - AttributeName: "dni"
+          - AttributeName: "id_estudiante"
             AttributeType: "S"
           
         KeySchema:
-          - AttributeName: "id_estudiante"
+          - AttributeName: "universidad"
             KeyType: "HASH"
-          - AttributeName: "dni"
+          - AttributeName: "id_estudiante"
             KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: 5

@@ -2,8 +2,8 @@ import boto3
 
 def lambda_handler(event, context):
     # Obtener los datos del evento
+    universidad = event['body']['universidad']
     id_estudiante = event['body']['id_estudiante']
-    dni = event['body']['dni']
     
     # Inicializar el recurso de DynamoDB
     dynamodb = boto3.resource('dynamodb')
@@ -12,8 +12,8 @@ def lambda_handler(event, context):
     # Eliminar el ítem de DynamoDB
     response = table.delete_item(
         Key={
-            'id_estudiante': id_estudiante,
-            'dni': dni
+            'universidad': universidad,
+            'id_estudiante': id_estudiante
         }
     )
     
