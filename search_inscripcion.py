@@ -22,16 +22,10 @@ def lambda_handler(event, context):
     if 'Item' in response:
         return {
             'statusCode': 200,
-            'body': str(response['Item']),
-            'headers': {
-                'Content-Type': 'application/json'
-            }
+            'body': response['Item']  # Devuelve directamente el objeto para que Lambda lo convierta en JSON
         }
     else:
         return {
             'statusCode': 404,
-            'body': '{"message": "Inscripción no encontrada"}',
-            'headers': {
-                'Content-Type': 'application/json'
-            }
+            'body': {"message": "Inscripción no encontrada"}
         }
