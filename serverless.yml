@@ -27,6 +27,16 @@ functions:
           method: post
           cors: true
           integration: lambda
+
+  deleteProgram:
+    handler: delete_program.lambda_handler  # Archivo 'delete_program.py' y función 'lambda_handler'
+    events:
+      - http:
+          path: programa/delete
+          method: post
+          cors: true
+          integration: lambda
+
   createEstudiante:
     handler: create_estudiante.lambda_handler  
     events:
@@ -41,6 +51,15 @@ functions:
     events:
       - http:
           path: estudiante/search
+          method: post
+          cors: true
+          integration: lambda
+          
+  deleteEstudiante:
+    handler: delete_estudiante.lambda_handler  # Archivo 'delete_estudiante.py' y función 'lambda_handler'
+    events:
+      - http:
+          path: estudiante/delete
           method: post
           cors: true
           integration: lambda
