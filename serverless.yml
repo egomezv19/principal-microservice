@@ -1,6 +1,6 @@
 org: enzogomez
 service: programa-service
-#enzo
+
 provider:
   name: aws
   runtime: python3.8
@@ -11,7 +11,7 @@ provider:
 
 functions:
   createProgram:
-    handler: create_program.lambda_handler
+    handler: create_program.lambda_handler  # Archivo 'create_program.py' y función 'lambda_handler'
     events:
       - http:
           path: programa/create
@@ -20,7 +20,7 @@ functions:
           integration: lambda
 
   searchProgram:
-    handler: search_program.lambda_handler
+    handler: search_program.lambda_handler  # Archivo 'search_program.py' y función 'lambda_handler'
     events:
       - http:
           path: programa/search

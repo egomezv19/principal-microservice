@@ -1,29 +1,28 @@
 import boto3
-import json
 
-# Inicializar el cliente de DynamoDB
-dynamodb = boto3.client('dynamodb')
-
-def create_program(event, context):
-    # Obtener el cuerpo de la solicitud
-    body = json.loads(event.get("body", "{}"))
+def lambda_handler(event, context):
+    # Obtener los datos del evento
+    pais_destino = event['body']['pais_destino']
+    descripcion = event['body']['descripcion']
+    fecha_inicio = event['body']['fecha_inicio']
+    fecha_fin = event['body']['fecha_fin']
     
-    # Crear un programa en DynamoDB
-    response = dynamodb.put_item(
-        TableName="programa",
-        Item={
-            "pais_destino": {"S": body["pais_destino"]},
-            "descripcion": {"S": body["descripcion"]},
-            "fecha_inicio": {"S": body["fecha_inicio"]},
-            "fecha_fin": {"S": body["fecha_fin"]}
-        }
-    )
+    # Inicializar el recurso de DynamoDB
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('programa')
     
+    # Crear el ítem para DynamoDB
+    programa = {
+        'pais_destino': pais_destino,
+        'descripcion': descripcion,
+        'fecha_inicio': fecha_inicio,
+        'fecha_fin': fecha_fin
+    }
+    # Insertar el ítem en DynamoDB
+    response = table.put_item(Item=programa)
+    
+    # Retornar la respuesta
     return {
-        "statusCode": 201,
-        "body": json.dumps({"message": "Programa creado exitosamente"}),
-        "headers": {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        }
+        'statusCode': 200,
+        'body': response
     }

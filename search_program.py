@@ -1,40 +1,30 @@
 import boto3
-import json
 
-# Inicializar el cliente de DynamoDB
-dynamodb = boto3.client('dynamodb')
-
-def search_program(event, context):
-    # Obtener el cuerpo de la solicitud
-    body = json.loads(event.get("body", "{}"))
+def lambda_handler(event, context):
+    # Obtener los datos del evento
+    pais_destino = event['body']['pais_destino']
+    fecha_inicio = event['body']['fecha_inicio']
     
-    # Buscar un programa en DynamoDB
-    response = dynamodb.get_item(
-        TableName="programa",
+    # Inicializar el recurso de DynamoDB
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('programa')
+    
+    # Obtener el ítem de DynamoDB
+    response = table.get_item(
         Key={
-            "pais_destino": {"S": body["pais_destino"]},
-            "fecha_inicio": {"S": body["fecha_inicio"]}
+            'pais_destino': pais_destino,
+            'fecha_inicio': fecha_inicio
         }
     )
     
-    item = response.get("Item")
-    if item:
-        # Formatear el elemento encontrado en una respuesta JSON
-        program_data = {k: list(v.values())[0] for k, v in item.items()}
+    # Verificar si el ítem existe y devolverlo
+    if 'Item' in response:
         return {
-            "statusCode": 200,
-            "body": json.dumps({"programa": program_data}),
-            "headers": {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
+            'statusCode': 200,
+            'body': response['Item']
         }
     else:
         return {
-            "statusCode": 404,
-            "body": json.dumps({"message": "Programa no encontrado"}),
-            "headers": {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
+            'statusCode': 404,
+            'body': 'Programa no encontrado'
         }
